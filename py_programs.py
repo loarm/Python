@@ -18,7 +18,7 @@ def heads_n_tails():
     again = 'y'
     while again.lower() == 'y':
         print('Бросаем монетку...')
-        print(*[('Решка', 'Орел')[randint(0, 1)] for _ in range(1)])
+        print(*[('Решка', 'Орёл')[randint(0, 1)] for _ in range(1)])
         again = input('Бросить монетку ещё раз? (y = да, n = нет) ')
     if again == 'n':
         return start()
