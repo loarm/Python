@@ -8,22 +8,23 @@ def dice_gen():
         print('Бросаем кубик...')
         print(f'Значение граней {randint(1, 6)} и {randint(1, 6)}')
         print()
-        again = input('Бросить кубики ещё раз? (y = да, n = нет)')
+        again = input('Бросить кубики ещё раз? (y = да, n = нет) ')
 
 # Программа имитации подбрасывания монетки с результатом Орел и Решка.
 def heads_n_tails():
     again = 'y'
     while again.lower() == 'y':
         print('Бросаем монетку...')
-        [print(('Решка', 'Орел')[__import__('random').randint(0, 1)]) for _ in range(1)]
-        again = input('Бросить монетку ещё раз? (y = да, n = нет)')
+        print(*[('Решка', 'Орел') [randint(0, 1)] for _ in range(1)])
+        again = input('Бросить монетку ещё раз? (y = да, n = нет) ')
 
 
+# app boot
 print("Программы", "1. Подбросить кубик", "2. Подросить монетку", sep="\n")
 print()
-choice = input("Выберите программу для запуска: 1 или 2")
+choice = int(input("Введите номер программы для запуска: "))
 
-if choice == '1':
+if choice == 1:
     print('Запускаем программу "Подбросить кубик"...')
     dice_gen()
 else:
