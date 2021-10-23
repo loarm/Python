@@ -26,17 +26,40 @@ def heads_n_tails():
 
 # программа генерирует случайное число в диапазоне от 1 до 100 и просит пользователя угадать это число
 def guess_num():
-    pass
+    # again = 'n'
+    num = randint(1, 100)
+    while True:
+        user = int(input("Загадайте число от 1 до 100 "))
+        if user > num:
+            print(f"Число {user} слишком большое, попробуйте еще раз")
+        if user < num:
+            print(f"Число {user} слишком маленькое, попробуйте еще раз")
+        if user == num:
+            print(f"Вы угадали, поздравляем! Число {num}!")
+            print()
+            print("Хотите сыграть ещё раз?")
+            if input() == 'y':
+                print()
+                continue
+            else:
+                print()
+                return start()
 
 
 # app boot
 def start():
     print("Программы", "1. Подбросить кубик", "2. Подросить монетку", "3. Угадайка число!", sep="\n")
     print()
+    global choice
     choice = input("Введите номер программы для запуска: ")
+    if choice == '1':
+        dice_gen()
+    elif choice == '2':
+        heads_n_tails()
+    elif choice == '3':
+        guess_num()
 
 
 # MAIN
+
 start()
-games = {'1': dice_gen(), '2': heads_n_tails(), '3': guess_num()}
-print(games(choice))
