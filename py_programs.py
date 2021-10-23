@@ -10,12 +10,12 @@ def dice_gen():
         print()
         again = input('Бросить кубики ещё раз? (y = да, n = нет)')
 
+# Программа имитации подбрасывания монетки с результатом Орел и Решка.
 def heads_n_tails():
-
     again = 'y'
     while again.lower() == 'y':
         print('Бросаем монетку...')
-        [print(('Решка', 'Орел') [__import__('random').randint(0, 1)]) for _ in range(1)]
+        [print(('Решка', 'Орел')[__import__('random').randint(0, 1)]) for _ in range(1)]
         again = input('Бросить монетку ещё раз? (y = да, n = нет)')
 
 
@@ -24,6 +24,8 @@ print()
 choice = input("Выберите программу для запуска: 1 или 2")
 
 if choice == '1':
+    print('Запускаем программу "Подбросить кубик"...')
     dice_gen()
 else:
+    print('Запускаем программу "Подбросить монетку"...')
     heads_n_tails()
