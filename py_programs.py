@@ -1,3 +1,4 @@
+import random
 from random import *
 
 
@@ -24,18 +25,33 @@ def heads_n_tails():
         return start()
 
 
+# проверка валидности введенного числа
+def is_valid(num):
+    num = int(num)
+    if 1 <= num <= 100:
+        return True
+    else:
+        return False
+
+
 # программа генерирует случайное число в диапазоне от 1 до 100 и просит пользователя угадать это число
 def guess_num():
-    # again = 'n'
-    num = randint(1, 100)
+    num = randint(1, 101)
+    counter = 0
     while True:
-        user = int(input("Загадайте число от 1 до 100 "))
-        if user > num:
-            print(f"Число {user} слишком большое, попробуйте еще раз")
+        user = input("Загадайте число от 1 до 100 ")
+        if not is_valid(user):
+            print("Введите целое число от 1 до 100!")
+            continue
+        user = int(user)
         if user < num:
-            print(f"Число {user} слишком маленькое, попробуйте еще раз")
+            print(f"Число {user} слишком маленькое, попробуйте ещё раз")
+            counter += 1
+        if user > num:
+            print(f"Число {user} слишком большое, попробуйте ещё раз")
+            counter += 1
         if user == num:
-            print(f"Вы угадали, поздравляем! Число {num}!")
+            print(f"Вы угадали - число {num}, поздравляем! Количество попыток {counter}.")
             print()
             print("Хотите сыграть ещё раз?")
             if input() == 'y':
@@ -46,9 +62,50 @@ def guess_num():
                 return start()
 
 
+# магический шар с 20 вариантами ответов
+def prediction():
+    global answers
+    answers = ["Бесспорно", "Мне кажется - да", "Пока неясно, попробуй снова", "Даже не думай",
+               "Предрешено", "Вероятнее всего", "Спроси позже", "Мой ответ - нет",
+               "Никаких сомнений", "Хорошие перспективы", "Лучше не рассказывать", "По моим данным - нет",
+               "Можешь быть уверен в этом", "Да", "Сконцентрируйся и спроси опять", "Весьма сомнительно"]
+    print("Привет Мир, я магический шар, и я знаю ответ на любой твой вопрос.")
+    name = input("Как тебя зовут? ")
+    print(f"Привет, {name}!")
+
+    while True:
+        q = input("Что ты хочешь знать? Задай свой вопрос: ")
+        if not q == '':
+            print(choice(answers))
+        else:
+            continue
+        q = input("У тебя ещё остались вопросы? (y = да, n = нет) ")
+        if q == 'n':
+            print("Возвращайся если возникнут вопросы!")
+            return start()
+            #break
+        else:
+            continue
+
+# программа генерации пароля
+def generate_password():
+    custom = ['0123456789', 'abcdefghijklmnopqrstuvwxyz', 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', '!#$%&*+-=?@^_']
+    chars = ''
+    n = int(input("Введите количество генерируемых паролей: "))
+    lenth = int(input('Введите длину пароля: '))
+    for i in range(len(custom)):
+        p = input(f'Включать ли {custom[i]} в пароль? (y = да, n = нет)')
+        if p == 'y':
+            chars += ''.join(custom[i])
+    for _ in range(n):
+        pas = sample(chars, lenth)
+        print("Ваш пароль ", *pas, sep='')
+
+
 # app boot
 def start():
-    print("Программы", "1. Подбросить кубик", "2. Подросить монетку", "3. Угадайка число!", sep="\n")
+    print("Программы", "1. Подбросить кубик", "2. Подросить монетку", "3. Угадайка число!", "4. Магический шар 8",
+          sep="\n")
     print()
     global choice
     choice = input("Введите номер программы для запуска: ")
@@ -58,8 +115,10 @@ def start():
         heads_n_tails()
     elif choice == '3':
         guess_num()
+    elif choice == '4':
+        prediction()
 
 
 # MAIN
-
-start()
+#start()
+generate_password()
