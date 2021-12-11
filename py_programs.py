@@ -1,8 +1,7 @@
-import random
 from random import *
 
 
-# Программа должна случайным образом генерировать два числа в диапазоне от 1 до 6 и показывать их
+# Программа случайным образом генерирует два числа в диапазоне от 1 до 6
 def dice_gen():
     again = 'y'
     while again.lower() == 'y':
@@ -64,7 +63,7 @@ def guess_num():
 
 # магический шар с 20 вариантами ответов
 def prediction():
-    global answers
+
     answers = ["Бесспорно", "Мне кажется - да", "Пока неясно, попробуй снова", "Даже не думай",
                "Предрешено", "Вероятнее всего", "Спроси позже", "Мой ответ - нет",
                "Никаких сомнений", "Хорошие перспективы", "Лучше не рассказывать", "По моим данным - нет",
@@ -93,32 +92,45 @@ def generate_password():
     chars = ''
     n = int(input("Введите количество генерируемых паролей: "))
     lenth = int(input('Введите длину пароля: '))
+
+    if lenth < 8:
+        print("Пароль короче 8 символов может быть небезопасным. Вы уверены, что хотите продолжить?  (y = да, n = нет)")
+        if input() == 'n':
+            lenth = int(input('Введите длину пароля: '))
     for i in range(len(custom)):
-        p = input(f'Включать ли {custom[i]} в пароль? (y = да, n = нет)')
+        p = input(f'Включать ли {custom[i]} в пароль? (y = да, n = нет) ')
         if p == 'y':
             chars += ''.join(custom[i])
-    for _ in range(n):
+    for _ in range(1, n + 1):
         pas = sample(chars, lenth)
         print("Ваш пароль ", *pas, sep='')
-
+    print("Хотите продолжить? (y = да, n = нет)")
+    if input() == 'n':
+        return start()
+    else:
+        generate_password()
 
 # app boot
 def start():
-    print("Программы", "1. Подбросить кубик", "2. Подросить монетку", "3. Угадайка число!", "4. Магический шар 8",
+    print("Программы", "1. Подбросить кубик", "2. Подросить монетку", "3. Угадайка число!", "4. Магический шар 8", "5. Генератор паролей",
           sep="\n")
     print()
-    global choice
-    choice = input("Введите номер программы для запуска: ")
-    if choice == '1':
+    order = input("Введите номер программы для запуска: ")
+    if order == '1':
         dice_gen()
-    elif choice == '2':
+    elif order == '2':
         heads_n_tails()
-    elif choice == '3':
+    elif order == '3':
         guess_num()
-    elif choice == '4':
+    elif order == '4':
         prediction()
+    elif order == '5':
+        generate_password()
 
 
-# MAIN
-#start()
-generate_password()
+
+
+if __name__ == '__main__':
+    start()
+
+
