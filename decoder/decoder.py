@@ -1,6 +1,8 @@
 from tkinter import *
 import base64
 
+
+
 root = Tk()
 root['bg'] = '#C1B5B2'
 root.geometry('500x350')
