@@ -41,19 +41,27 @@ resource = {
 
 
 def get_report():
+    """Returns the report with available resources of coffee machine"""
     return f'Water: {resource["water"]}ml\nMilk: {resource["milk"]}ml\nCoffee: {resource["coffee"]}g\nMoney: ${resource["money"]}'
 
 
 def check_resources(coffee):
-    for i in ("water", "milk", "coffee"):
-        return True if (resource[i] - MENU[coffee]['ingredients'][i]) >= 0 else print(f"Sorry there is not enough {i}.")
+    """Checks if there are enough ingredients to make ordered coffee"""
+    for i in coffee:
+        if resource[i] <= coffee[i]:
+            print(f"Sorry there is not enough {i}.")
+            return False
+    return True
 
 
 def update_resources(coffee):
+    """Updates data of available resources of the coffee machine"""
     for i in ("water", "milk", "coffee"):
-        resource[i] -= MENU[coffee]['ingredients'][i]
+        resource[i] -= coffee[i]
+
 
 def process_coins():
+    """Calculates inserted coins and returns a sum"""
     print("Please insert coins.")
     quarters = 0.25 * int(input("How many quarters?: "))
     dimes = 0.10 * int(input("How many dimes?: "))
@@ -62,25 +70,22 @@ def process_coins():
     return quarters + dimes + nickles + pennies
 
 
-def make_coffee():
-    while True:
-        response = input(
-            'What would you like? (espresso/latte/cappuccino): ').lower().strip()
+while True:
+    response = input(
+        'What would you like? (espresso/latte/cappuccino): ').lower().strip()
 
-        if response in ["espresso", "latte", "cappuccino"]:
-            if check_resources(response):
-                payment = process_coins()
-                if payment >= (cost := MENU[response]["cost"]):
-                    resource["money"] += MENU[response]["cost"]
-                    update_resources(response)
-                    print(f'Here is ${round(payment - cost, 2)} in change')
-                    print(f'Here is your {response} ☕ Enjoy!')
-                else:
-                    print("Sorry that's not enough money. Money refunded.")
-        elif response == "report":
-            print(get_report())
-        elif response == "off":
-            break
-
-
-print(make_coffee())
+    if response in ["espresso", "latte", "cappuccino"]:
+        coffee_ingreds = MENU[response]["ingredients"]
+        if check_resources(coffee_ingreds):
+            payment = process_coins()
+            if payment >= (cost := MENU[response]["cost"]):
+                resource["money"] += cost
+                update_resources(coffee_ingreds)
+                print(f'Here is ${round(payment - cost, 2)} in change')
+                print(f'Here is your {response} ☕ Enjoy!')
+            else:
+                print("Sorry that's not enough money. Money refunded.")
+    elif response == "report":
+        print(get_report())
+    elif response == "off":
+        break
